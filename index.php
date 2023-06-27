@@ -4,7 +4,7 @@
 $servername = "eu-cdbr-west-03.cleardb.net";
 
 // REPLACE with your Database name
-$dbname = "mobileappdb_test";
+$dbname = "heroku_6894c5dfa57248a";
 // REPLACE with Database user
 $username = "b158d341a83362";
 // REPLACE with Database user password
