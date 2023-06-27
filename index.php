@@ -1,14 +1,14 @@
 <?php
 
 // Change port accordingly
-$servername = "localhost";
+$servername = "eu-cdbr-west-03.cleardb.net";
 
 // REPLACE with your Database name
 $dbname = "mobileappdb_test";
 // REPLACE with Database user
-$username = "nodemcu_user";
+$username = "b158d341a83362";
 // REPLACE with Database user password
-$password = "";
+$password = "592bc121";
 
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page.
 // If you change this value, the ESP32 sketch needs to match
