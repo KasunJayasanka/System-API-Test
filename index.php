@@ -81,32 +81,32 @@
                                                   
                 echo '<p>';
                 echo '   <span class="dht-labels">dateTime = </span>';
-                echo '   <span id="temperature">'.$row["dateTime"].'</span>';
+                echo '   <span id="#">'.$row["dateTime"].'</span>';
                 echo ' </p>';
                                                   
                 echo '<p>';                               
                 echo '   <span class="dht-labels">Gas Leakage = </span>';
-                echo '   <span id="temperature">'.$row["gasLeakageDetected"].'</span>';
+                echo '   <span id="#">'.$row["gasLeakageDetected"].'</span>';
                 echo ' </p>';
 
                 echo '<p>';                               
                 echo '   <span class="dht-labels">Flame Detected = </span>';
-                echo '   <span id="temperature">'.$row["flameDetected"].'</span>';
+                echo '   <span id="#">'.$row["flameDetected"].'</span>';
                 echo ' </p>';
 
                 echo '<p>';                               
                 echo '   <span class="dht-labels">Temperature Value = </span>';
-                echo '   <span id="temperature">'.$row["temperatureValue"].'</span>';
+                echo '   <span id="#">'.$row["temperatureValue"].'</span>';
                 echo ' </p>';
 
                 echo '<p>';                               
                 echo '   <span class="dht-labels">Window1 Status = </span>';
-                echo '   <span id="temperature">'.$row["window1Status"].'</span>';
+                echo '   <span id="#">'.$row["window1Status"].'</span>';
                 echo ' </p>';
 
                 echo '<p>';                               
                 echo '   <span class="dht-labels">Window2 Status = </span>';
-                echo '   <span id="temperature">'.$row["window2Status"].'</span>';
+                echo '   <span id="#">'.$row["window2Status"].'</span>';
                 echo ' </p>';
                                                   
                 echo '</div>';
@@ -129,7 +129,7 @@
                                                 
                 echo '<p>';
                 echo '   <span class="dht-labels">Gas Weight = </span>';
-                echo '   <span id="temperature">'.$row2["gasWeight"].'</span>';
+                echo '   <span id="#">'.$row2["gasWeight"].'</span>';
                 echo ' </p>';
                                                                                  
                 echo '</div>';
