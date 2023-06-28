@@ -115,6 +115,8 @@
             echo "0 results";
         }
 
+        echo '</br>';
+
         // Query the single latest entry from the database. -> SELECT * FROM table_name ORDER BY col_name DESC LIMIT 1
         $sql2 = "SELECT * FROM weight_data ORDER BY id DESC LIMIT 1";
         $result2 = $conn->query($sql2);
