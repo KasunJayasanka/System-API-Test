@@ -93,7 +93,7 @@
             while($row = $result->fetch_assoc()) { //fetch_assoc fetches a row from the result of our query iteratively for every row in our result.
                 //Returning HTML from the server to show on the webpage.
                                                   
-                echo '<p style="font-size:60px;"><center>System API Test</center></p>';
+                echo '<p style="font-size:100px;"><center>System API Test</center></p>';
                                                   
                 echo '<div class="columns">';
                    echo'<div class="column">';
