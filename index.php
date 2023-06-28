@@ -71,6 +71,7 @@
         
   </style>
 </head>
+<title>System API Test</title>    
 <body>
     <?php
         $host = "eu-cdbr-west-03.cleardb.net";  // host = localhost because database hosted on the same server where PHP files are hosted
@@ -91,7 +92,7 @@
             while($row = $result->fetch_assoc()) { //fetch_assoc fetches a row from the result of our query iteratively for every row in our result.
                 //Returning HTML from the server to show on the webpage.
                                                   
-                echo '<h2>System API Test</h2>';
+                echo '<p>System API Test</p>';
                                                   
                 echo '<div class="columns">';
                    echo'<div class="column">';
