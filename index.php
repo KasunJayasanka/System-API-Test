@@ -124,15 +124,12 @@
         if ($result2->num_rows > 0) {
             //Will come handy if we later want to fetch multiple rows from the table
             while($row2 = $result2->fetch_assoc()) { //fetch_assoc fetches a row from the result of our query iteratively for every row in our result.
-                //Returning HTML from the server to show on the webpage.
-                echo '<div class="container">';
-                                                
+                //Returning HTML from the server to show on the webpage.                               
                 echo '<p>';
                 echo '   <span class="dht-labels">Gas Weight = </span>';
                 echo '   <span id="#">'.$row2["gasWeight"].'</span>';
-                echo ' </p>';
-                                                                                 
-                echo '</div>';
+                echo ' </p>';                                                                 
+                
             }
         } else {
             echo "0 results";
