@@ -463,7 +463,6 @@ void serialCommunicateData(String dateTime,String date,String time,bool gasLeaka
     // Add data to the JSON object
     serialComJsonDoc["X-API-KEY"] = API_KEY;
     serialComJsonDoc["dateTime"] = dateTime;
-    serialComJsonDoc["dateTime"] = dateTime;
     serialComJsonDoc["date"] = date;
     serialComJsonDoc["time"] = time;
     serialComJsonDoc["gasLeakageDetected"] = gasLeakageDetected;
