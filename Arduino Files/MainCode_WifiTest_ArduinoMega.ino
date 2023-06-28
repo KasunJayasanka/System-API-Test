@@ -11,9 +11,14 @@
 
 #include <RTClib.h> //Library for DS3231 RTC Module
 
+//To Create JSON Objects
+#include <ArduinoJson.h> 
+
+//API KEY for the API Call to the Server
+#define API_KEY "tPmAT5Ab3j7F9"
+
 //To Temperature Sensor
 #define ONE_WIRE_BUS 28
-
 OneWire oneWire(ONE_WIRE_BUS);
 // Setup a oneWire instance to communicate with any OneWire devices
 // Pass our oneWire reference to Dallas Temperature sensor 
@@ -72,7 +77,7 @@ int window2Status=1;
 int flameSensor;
 
 //Temperature Sensor
-float temperatureValue=10.5;
+float temperatureValue;
 
 //Weight Sensor
 float gasWeight=5;
@@ -452,18 +457,29 @@ String getDateTime(){
 
 void serialCommunicateData(String dateTime,String date,String time,bool gasLeakageDetected,bool flameDetected,float temperatureValue,int window1Status,int window2Status,float gasWeight){
 
-    String serialComStr;
-    serialComStr="dateTime:"+dateTime+",";
-    serialComStr+="date:"+date+",";
-    serialComStr+="time:"+time+",";
-    serialComStr+="gasLeakageDetected:"+String(gasLeakageDetected)+",";
-    serialComStr+="flameDetected:"+String(flameDetected)+",";
-    serialComStr+="temperatureValue:"+String(temperatureValue)+",";
-    serialComStr+="window1Status:"+String(window1Status)+",";
-    serialComStr+="window2Status:"+String(window2Status)+",";
-    serialComStr+="gasWeight:"+String(gasWeight)+",";
 
-    Serial.println(serialComStr);
-    delay(1000);
+    StaticJsonDocument<2048> serialComJsonDoc;
+
+    // Add data to the JSON object
+    serialComJsonDoc["X-API-KEY"] = API_KEY;
+    serialComJsonDoc["dateTime"] = dateTime;
+    serialComJsonDoc["dateTime"] = dateTime;
+    serialComJsonDoc["date"] = date;
+    serialComJsonDoc["time"] = time;
+    serialComJsonDoc["gasLeakageDetected"] = gasLeakageDetected;
+    serialComJsonDoc["flameDetected"] = flameDetected;
+    serialComJsonDoc["temperatureValue"] = temperatureValue;
+    serialComJsonDoc["window1Status"] = window1Status;
+    serialComJsonDoc["window2Status"] = window2Status;
+    serialComJsonDoc["gasWeight"] = gasWeight;
+
+    // Convert the JSON object to a string
+    String jsonString;
+    serializeJson(serialComJsonDoc, jsonString);
+
+    // Send the JSON string over serial
+    Serial.println(jsonString);
+
+    delay(2000);
 
 }
