@@ -91,7 +91,7 @@
             while($row = $result->fetch_assoc()) { //fetch_assoc fetches a row from the result of our query iteratively for every row in our result.
                 //Returning HTML from the server to show on the webpage.
                                                   
-                echo '<p>System API Test</p>';
+                echo '<h2>System API Test</h2>';
                                                   
                 echo '<div class="columns">';
                    echo'<div class="column">';
@@ -149,11 +149,13 @@
             while($row2 = $result2->fetch_assoc()) { //fetch_assoc fetches a row from the result of our query iteratively for every row in our result.
                 //Returning HTML from the server to show on the webpage. 
 
+                echo'<div class="container">';
                 echo'<div class="column">';
                     echo '<p>';
                     echo '   <span class="dht-labels">Gas Weight = </span>';
                     echo '   <span id="#">'.$row2["gasWeight"].'</span>';
                     echo ' </p>';     
+                echo'</div>';  
                 echo'</div>';  
                                                     
             }
