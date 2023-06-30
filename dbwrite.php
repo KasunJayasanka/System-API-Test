@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // get values form pay load
             
             
-            $dateTime = $time = ($json['dateTime'] ?? 0);
+            $dateTime = (string)($json['dateTime'] ?? 0);
             $gasLeakageDetected = (int)($json['gasLeakageDetected'] ?? 0);
             $flameDetected = (int)($json['flameDetected'] ?? 0); 
             $temperatureValue = (float)($json['temperatureValue'] ?? 0); 
