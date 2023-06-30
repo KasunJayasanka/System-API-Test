@@ -45,33 +45,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // prepare sql connection
             // ref -> https://www.w3schools.com/php/php_mysql_prepared_statements.asp
 
-            $stmt = $conn->prepare("INSERT INTO nodemcu_table (sensorValue1,sensorValue2,sensorValue3,sensorValue4) VALUES (?,?,?,?);");
+            $stmt1 = $conn->prepare("INSERT INTO data (dateTimeStamp,gasLeakageDetected,flameDetected,temperatureValue,window1Status) VALUES (?,?,?,?,?);");
 
             // get values form pay load
-            $sensorValue1 = (float)($json['sensorValue1'] ?? 0); 
-            $sensorValue2 = (float)($json['sensorValue2'] ?? 0); 
-            $sensorValue3 = (float)($json['sensorValue3'] ?? 0); 
-            $sensorValue4 = (float)($json['sensorValue4'] ?? 0);
+            
+            
+            $dateTime = $time = ($json['dateTime'] ?? 0);
+            $gasLeakageDetected = (int)($json['gasLeakageDetected'] ?? 0);
+            $flameDetected = (int)($json['flameDetected'] ?? 0); 
+            $temperatureValue = (float)($json['temperatureValue'] ?? 0); 
+            $window1Status = (int)($json['window1Status'] ?? 0); 
+            //$window2Status = (int)($json['window2Status'] ?? 0);
+            $gasWeight = (float)($json['gasWeight'] ?? 0);
 
             // bind paramiters to sql statement
-            $stmt->bind_param(
-                'dddd',
-                $sensorValue1, 
-                $sensorValue2, 
-                $sensorValue3, 
-                $sensorValue4,
+            $stmt1->bind_param(
+                'siidi',
+                $dateTime, 
+                $gasLeakageDetected, 
+                $flameDetected, 
+                $temperatureValue,
+                $window1Status,
+                //$window2Status,
             );
 
-            if ($stmt->execute() === true) {
+            if ($stmt1->execute() === true) {
                 $response['success'] = true;
-                $response['massage'] = 'Data inserted successfully';
+                $response['massage'] = 'Data inserted to Main Table successfully';
                 $responseCode = 200; // response success
             } else {
                 $response['massage'] = 'Error: ' . $sql .' '. $conn->error;
                 $responseCode = 500; // internal server error
             }
 
-            $stmt->close();
+            $stmt1->close();
+
+            $stmt2 = $conn->prepare("INSERT INTO weight_data (gasWeight,dateTimeStamp) VALUES (?,?);");
+
+            $stmt2->bind_param(
+                'ds',
+                $gasWeight,
+                $dateTime,
+            );
+
+            if ($stmt2->execute() === true) {
+                $response['success'] = true;
+                $response['massage'] = 'Data inserted to Weight Table successfully';
+                $responseCode = 200; // response success
+            } else {
+                $response['massage'] = 'Error: ' . $sql .' '. $conn->error;
+                $responseCode = 500; // internal server error
+            }
+
+            $stmt2->close();
+
         }
 
         // Close the connection
