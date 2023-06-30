@@ -125,12 +125,7 @@
                             echo '   <span class="dht-labels">Window1 Status = </span>';
                             echo '   <span id="#">'.$row["window1Status"].'</span>';
                             echo ' </p>';
-            
-                            echo '<p>';                               
-                            echo '   <span class="dht-labels">Window2 Status = </span>';
-                            echo '   <span id="#">'.$row["window2Status"].'</span>';
-                            echo ' </p>';
-                                                              
+                                                                          
                             echo '</div>';                           
                    echo'</div>';
                                                 
