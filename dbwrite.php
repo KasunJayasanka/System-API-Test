@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // bind paramiters to sql statement
             $stmt1->bind_param(
-                'siidid',
+                'siidi',
                 $dateTimeStamp, 
                 $gasLeakageDetected, 
                 $flameDetected, 
