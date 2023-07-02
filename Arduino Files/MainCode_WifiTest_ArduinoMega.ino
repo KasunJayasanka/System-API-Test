@@ -494,20 +494,13 @@ void serialCommunicateData(String dateTime,bool gasLeakageDetected,bool flameDet
 
     // Convert the JSON object to a string
     String jsonString;
-    
-    serializeJson(serialComJsonDoc,jsonString);
+    //serializeJson(serialComJsonDoc,jsonString);
     Serial.println("\n");
-    jsonString = "*" + jsonString + "$";
-    //serializeJson(serialComJsonDoc, jsonString);
-
-    
-    // Send the JSON string over serial
-    Serial.print(jsonString);
-
+    serializeJson(serialComJsonDoc, Serial);
 
     // Send the JSON string over serial
     
-    //Serial.flush();
+    Serial.flush();
     delay(2000);
     
 }
