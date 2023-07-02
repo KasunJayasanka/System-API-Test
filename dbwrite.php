@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // get values form pay load
             
             
-            $dateTimeStamp = ($json['dateTime'] ?? 0);
+            $dateTime = ($json['dateTime'] ?? 0);
             $gasLeakageDetected = (int)($json['gasLeakageDetected'] ?? 0);
             $flameDetected = (int)($json['flameDetected'] ?? 0); 
             $temperatureValue = (float)($json['temperatureValue'] ?? 0); 
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // bind paramiters to sql statement
             $stmt1->bind_param(
                 'siidi',
-                $dateTimeStamp, 
+                $dateTime, 
                 $gasLeakageDetected, 
                 $flameDetected, 
                 $temperatureValue,
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt2->bind_param(
                 'ds',
                 $gasWeight,
-                $dateTimeStamp,
+                $dateTime,
             );
 
             if ($stmt2->execute() === true) {
@@ -98,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             $stmt2->close();
-
         }
 
         // Close the connection
