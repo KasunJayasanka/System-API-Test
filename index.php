@@ -15,7 +15,7 @@
             padding: 0;
         }
         body {
-            background: url('/img/bg.jpg') no-repeat center center;
+            background: url('img/bg.jpg') no-repeat center center;
             background-attachment: fixed;
             background-size: cover;
             display: grid;
@@ -103,7 +103,7 @@
                                                   
                             echo '<p>';
                             echo '   <span class="dht-labels">dateTime = </span>';
-                            echo '   <span id="#">'.$row["dateTime"].'</span>';
+                            echo '   <span id="#">'.$row["dateTimeStamp"].'</span>';
                             echo ' </p>';
                                                               
                             echo '<p>';                               
