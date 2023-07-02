@@ -76,9 +76,9 @@
 <body>
     <?php
         $host = "eu-cdbr-west-03.cleardb.net";  // host = localhost because database hosted on the same server where PHP files are hosted
-        $dbname = "heroku_2db5e38e1987785";  // Database name
-        $username = "be4b887cdc6b20";  // Database username
-        $password = "3ffda6fa"; // Database password
+        $dbname = "heroku_6894c5dfa57248a";  // Database name
+        $username = "b158d341a83362";  // Database username
+        $password = "592bc121"; // Database password
         // Establish connection to MySQL database
         $conn = new mysqli($host, $username, $password, $dbname);
         // Check if connection established successfully
