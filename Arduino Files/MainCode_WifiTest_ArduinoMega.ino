@@ -27,6 +27,7 @@ DallasTemperature sensors(&oneWire);
 //LCD Display
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 16, 2); 
 
+//Variables for capturing GAS Values
 float lpGasThreshVal=100.0;
 float lpGasReadingVal;
 
@@ -67,7 +68,7 @@ const int magneticSensor = 6;
 //RTC Module
 RTC_DS3231 rtc;
 char t[32];
-String date,time,dateTime;
+StaticJsonDocument<128> dateTimeDoc;
 
 //Magnetic Sensor
 int window1Status;
@@ -80,7 +81,7 @@ int flameSensor;
 float temperatureValue;
 
 //Weight Sensor
-float gasWeight=5;
+float gasWeight;
 
 void setup() {
 
@@ -130,19 +131,30 @@ void setup() {
   //RTC Module
   Wire.begin();
   rtc.begin();
+  StaticJsonDocument<128> dateTimeDoc;
 
-  //  if (! rtc.begin()) 
-  // {
-  //   Serial.println(" RTC Module not Present");
-  //   while (1);
-  // }
+  if (!rtc.begin()) 
+  {
+    // Serial.println(" RTC Module not Present");
+    //while (1);
+    lcd.setCursor(0,0);
+    lcd.print("No RTC Initialized");
+    lcd.clear();
+  }
 
   if (rtc.lostPower())
   {
+    lcd.setCursor(0,0);  
+    lcd.print("RTC LOST Power");
+    lcd.clear();
     //Serial.println("RTC power failure, reset the time!");
-    rtc.adjust(DateTime(2023, 6, 6, 12, 0, 0));
+    rtc.adjust(DateTime(2023, 6, 30, 14, 20, 0));
     // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
+
+  //Adjusting Current Date Time of RTC
+  rtc.adjust(DateTime(2023, 6, 30, 14, 20, 0));
+
 
 
 }
@@ -150,12 +162,19 @@ void setup() {
 
 void loop() {
 
+  gasWeight=random(20);
+
   //Getting Current Date and Time 
   String dateTimeString=getDateTime();
-  date = dateTimeString.substring(dateTimeString.indexOf(":") + 1, dateTimeString.indexOf(","));
-  dateTimeString = dateTimeString.substring(dateTimeString.indexOf(",") + 1); // Remove the first sensor value
-  time = dateTimeString.substring(dateTimeString.indexOf(":") + 1, dateTimeString.indexOf(","));
-  dateTime=date+" "+time;
+
+  deserializeJson(dateTimeDoc,dateTimeString);
+  
+  String date=dateTimeDoc["date"];
+  String time=dateTimeDoc["time"];
+  String dateTime=date+" "+time;
+  // Serial.println("Date:");
+  // Serial.println(date);
+  // Serial.println(time);
 
   //Getting Temperature
   temperatureValue=sensors.getTempCByIndex(0);
@@ -175,7 +194,7 @@ void loop() {
   // Serial.print("Window State = ");
   // Serial.println(window1Status);
 
-  serialCommunicateData(dateTime,date,time,gasLeakageDetected,flameDetected,temperatureValue,window1Status,window2Status,gasWeight);
+  serialCommunicateData(dateTime,gasLeakageDetected,flameDetected,temperatureValue,window1Status,gasWeight);
 
   if(window1Status==LOW)
   {
@@ -225,7 +244,7 @@ void loop() {
     lcd.print(temperatureValue);
   //delay(1000);
 
-    serialCommunicateData(dateTime,date,time,gasLeakageDetected,flameDetected,temperatureValue,window1Status,window2Status,gasWeight);
+    serialCommunicateData(dateTime,gasLeakageDetected,flameDetected,temperatureValue,window1Status,gasWeight);
 
   //Ringing Buzzer to alert about Gas Leakage
     tone(buzzerPin, 1000, 1000);
@@ -300,7 +319,7 @@ void loop() {
     }      
     delay(1000);
 
-    serialCommunicateData(dateTime,date,time,gasLeakageDetected,flameDetected,temperatureValue,window1Status,window2Status,gasWeight);
+    serialCommunicateData(dateTime,gasLeakageDetected,flameDetected,temperatureValue,window1Status,gasWeight);
 
     //ring buzzer 
     tone(buzzerPin,1200);
@@ -434,51 +453,61 @@ String FireAlertMessage()//creates the message string to be sent to the fire aut
 
 String getDateTime(){
 
+  String date,time,dateTimeString;
+  StaticJsonDocument<128> dateTimeDoc;
+
   DateTime now = rtc.now();
 
-  String time=String(now.hour())+":"+String(now.minute())+":"+String(now.second());
-  String date=String(now.year())+"-"+String(now.month())+"-"+String(now.day());
+  date=String(now.year())+"-"+String(now.month())+"-"+String(now.day());
+  time=String(now.hour())+":"+String(now.minute())+":"+String(now.second());
+
+  dateTimeDoc["date"]=date;
+  dateTimeDoc["time"]=time;
+
+  serializeJson(dateTimeDoc,dateTimeString);
+  
   // sprintf(t, "%02d:%02d:%02d %02d/%02d/%02d", now.hour(), now.minute(), now.second(), now.day(), now.month(), now.year());  
   // Serial.print(F("Date/Time: "));
   // Serial.println(t);
-  // Serial.print("");
-  // Serial.println("Date "+Date);
-  // Serial.println("Time "+Time);
 
-  String dateTime="Date:"+date+","+"Time:"+time;
+  return dateTimeString;
 
-  return dateTime;
-  
   delay(1000);
 
 }
 
 /*==========================Serial Communicating to WiFi Sheild=======================*/
 
-void serialCommunicateData(String dateTime,String date,String time,bool gasLeakageDetected,bool flameDetected,float temperatureValue,int window1Status,int window2Status,float gasWeight){
+void serialCommunicateData(String dateTime,bool gasLeakageDetected,bool flameDetected,float temperatureValue,int window1Status,float gasWeight){
 
 
-    StaticJsonDocument<2048> serialComJsonDoc;
+    DynamicJsonDocument serialComJsonDoc(512);
 
     // Add data to the JSON object
     serialComJsonDoc["X-API-KEY"] = API_KEY;
     serialComJsonDoc["dateTime"] = dateTime;
-    serialComJsonDoc["date"] = date;
-    serialComJsonDoc["time"] = time;
-    serialComJsonDoc["gasLeakageDetected"] = gasLeakageDetected;
-    serialComJsonDoc["flameDetected"] = flameDetected;
-    serialComJsonDoc["temperatureValue"] = temperatureValue;
-    serialComJsonDoc["window1Status"] = window1Status;
-    serialComJsonDoc["window2Status"] = window2Status;
-    serialComJsonDoc["gasWeight"] = gasWeight;
+    serialComJsonDoc["gasLeakageDetected"] = String(gasLeakageDetected);
+    serialComJsonDoc["flameDetected"] = String(flameDetected);
+    serialComJsonDoc["temperatureValue"] = String(temperatureValue);
+    serialComJsonDoc["window1Status"] = String(window1Status);
+    serialComJsonDoc["gasWeight"] = String(gasWeight);
 
     // Convert the JSON object to a string
     String jsonString;
-    serializeJson(serialComJsonDoc, jsonString);
+    
+    serializeJson(serialComJsonDoc,jsonString);
+    Serial.println("\n");
+    jsonString = "*" + jsonString + "$";
+    //serializeJson(serialComJsonDoc, jsonString);
+
+    
+    // Send the JSON string over serial
+    Serial.print(jsonString);
+
 
     // Send the JSON string over serial
-    Serial.println(jsonString);
-
+    
+    //Serial.flush();
     delay(2000);
-
+    
 }
