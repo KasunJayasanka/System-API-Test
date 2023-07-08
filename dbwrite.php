@@ -49,14 +49,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // get values form pay load
             
-            
-            $dateTime = ($json['dateTime'] ?? 0);
-            $gasLeakageDetected = (int)($json['gasLeakageDetected'] ?? 0);
-            $flameDetected = (int)($json['flameDetected'] ?? 0); 
-            $temperatureValue = (float)($json['temperatureValue'] ?? 0); 
-            $window1Status = (int)($json['window1Status'] ?? 0); 
-            //$window2Status = (int)($json['window2Status'] ?? 0);
-            $gasWeight = (float)($json['gasWeight'] ?? 0);
+            $serialPayload=$json['serialPayload'];
+
+            // // Remove the starting "*" character from the payload
+            //     $payload = substr($httpPayload, 1);
+
+            // Split the payload into an array of values using "&" and "$" as delimiters
+            //$values = explode('&', substr($payload, 0, -1));
+            $values = explode('&',$serialPayload);
+
+            // Access each value in the array
+            $dateTime = $values[0];
+            $gasLeakageDetected = $values[1] == "1";
+            $flameDetected = $values[2] == "1";
+            $temperatureValue = floatval($values[3]);
+            $window1Status = $values[4];
+            $gasWeight = floatval($values[5]);
+
 
             // bind paramiters to sql statement
             $stmt1->bind_param(
