@@ -75,10 +75,10 @@
 <title>System API Test</title>    
 <body>
     <?php
-        $host = "eu-cdbr-west-03.cleardb.net";  // host = localhost because database hosted on the same server where PHP files are hosted
-        $dbname = "heroku_2db5e38e1987785";  // Database name
-        $username = "be4b887cdc6b20";  // Database username
-        $password = "3ffda6fa"; // Database password
+        $host = "localhost";  // host = localhost because database hosted on the same server where PHP files are hosted
+        $dbname = "mobileappdb_test2";  // Database name
+        $username = "nodemcu_user";  // Database username
+        $password = ""; // Database password
         // Establish connection to MySQL database
         $conn = new mysqli($host, $username, $password, $dbname);
         // Check if connection established successfully
@@ -125,7 +125,8 @@
                             echo '   <span class="dht-labels">Window1 Status = </span>';
                             echo '   <span id="#">'.$row["window1Status"].'</span>';
                             echo ' </p>';
-                                                                          
+            
+                                                              
                             echo '</div>';                           
                    echo'</div>';
                                                 
