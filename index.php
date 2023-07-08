@@ -75,10 +75,17 @@
 <title>System API Test</title>    
 <body>
     <?php
-        $host = "localhost";  // host = localhost because database hosted on the same server where PHP files are hosted
-        $dbname = "mobileappdb_test2";  // Database name
-        $username = "nodemcu_user";  // Database username
-        $password = ""; // Database password
+
+        // Change port accordingly
+        $servername = "eu-cdbr-west-03.cleardb.net";
+        
+        // REPLACE with your Database name
+        $dbname = "heroku_2db5e38e1987785";
+        // REPLACE with Database user
+        $username = "be4b887cdc6b20";
+        // REPLACE with Database user password
+        $password = "3ffda6fa";
+   
         // Establish connection to MySQL database
         $conn = new mysqli($host, $username, $password, $dbname);
         // Check if connection established successfully
