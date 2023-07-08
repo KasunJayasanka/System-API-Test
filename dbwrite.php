@@ -2,13 +2,13 @@
 
 // Change port accordingly
 $servername = "eu-cdbr-west-03.cleardb.net";
-
+        
 // REPLACE with your Database name
-$dbname = "heroku_2db5e38e1987785";
+$dbname = "heroku_6894c5dfa57248a";
 // REPLACE with Database user
-$username = "be4b887cdc6b20";
+$username = "b158d341a83362";
 // REPLACE with Database user password
-$password = "3ffda6fa";
+$password = "592bc121";
 
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page.
 // If you change this value, the ESP32 sketch needs to match
